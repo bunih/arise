@@ -1,0 +1,128 @@
+<!-- Header Area Starts -->
+{% load static %}
+
+<!-- =========================================================== -->
+<header class="header">
+    <div class="header_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="header_content d-flex flex-row align-items-center justify-content-start">
+                        <div class="logo_container">
+                            <a href="/">
+                                <div class="logo"><img src="/static/images/logo.png" alt=""></div>
+                                <div class="logo_text"><strong style="color: rgb(97, 97, 97);">ARISE AND SHINE </strong>
+                                </div>
+                            </a>
+                        </div>
+                        <nav class="main_nav_contaner ml-auto">
+                            <ul class="main_nav">
+                                <!-- <li><a href="{% url 'home:welcome' %}">Home</a></li> -->
+                                <!-- <li><a href="">events</a></li> -->
+                                <li><a href="{% url 'testimony:testimonies' %}">Testimony</a></li>
+                               
+
+                                <!-- <li class="dropdown">
+                                    <a href="" class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Testimony
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      <a class="dropdown-item" href="#"><i class="fa  fa-institution"></i> Church</a>
+                                      <a class="dropdown-item" href="#"><i class="fa  fa-globe"></i> Online</a>
+                                    </div>
+                                  </li> -->
+
+                                <!-- <li><a href="{% url 'contact:contact' %}">contact</a></li> -->
+                            </ul>
+                            <!-- <div class="search_button">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                               
+                            </div> -->
+
+                        </nav>
+
+
+
+                        <div class="hamburger ml-auto">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="ml-5 d-flex flex-row align-items-center justify-content-center">
+                    {% if user.is_authenticated %}
+                    <a href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="row">
+                            <div class="d-flex flex-row align-items-center justify-content-center dropdown-toggle">
+                                <img class="rounded-circle mr-1" src="{{ user.profile.profile.url }}"  alt="" height="32px" width="32px">
+                                {{ user }}
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#"><i class="fa fa-users mr-2"></i> Profile</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-cogs mr-2"></i> settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/admin"><i class="fa fa-cog mr-2"></i> admin</a>
+                        <a class="dropdown-item" href="{% url 'administrator:start' %}"><i class="fa fa-signal mr-2"></i> administrator</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}" ><i class="fa fa-power-off mr-2"></i> logout</a>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'login' %}" class=" btn btn-primary btn-sm pl-2"><i class="fa  fa-sign-in mr-1"></i>  login</a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% include 'admin_layouts/partials/inc/msg.html' %}
+
+    </div>
+
+    <div class="header_search_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="header_search_content d-flex flex-row align-items-center justify-content-end">
+                        <form action="#" class="header_search_form">
+                            <input type="search" class="search_input" placeholder="Search" required="required">
+                            <button
+                                class="header_search_button d-flex flex-column align-items-center justify-content-center">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<div class="menu d-flex flex-column align-items-center justify-content-center">
+    <div class="menu_content">
+        <div class="cross_1 d-flex flex-column align-items-center justify-content-center"><img
+                src="static/images/logo.png" alt=""></div>
+        <form action="#" class="menu_search_form">
+            <input type="search" class="menu_search_input" placeholder="Search" required="required">
+            <button class="menu_search_button d-flex flex-column align-items-center justify-content-center">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </form>
+        <nav class="menu_nav">
+            <ul>
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="sermons.html">Sermons</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="menu_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+</div>

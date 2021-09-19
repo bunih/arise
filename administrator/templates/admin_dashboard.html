@@ -1,0 +1,291 @@
+{% extends 'admin_layouts/administrator.html'%} {% load static %}
+{% load base%}
+{% block title%} administrator | Dashboard {% endblock%}
+{% block content %}
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Admin Dashboard</h1>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Admin Dashboard</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!-- 
+
+  <div class="card card-success">
+    <div class="card-header">
+      <h3 class="card-title">Monthly Graph</h3>
+
+    </div>
+    <div class="card-body">
+      <div class="chart">
+        <div class="chartjs-size-monitor">
+          <div class="chartjs-size-monitor-expand">
+            <div class=""></div>
+          </div>
+          <div class="chartjs-size-monitor-shrink">
+            <div class=""></div>
+          </div>
+        </div>
+        <div class="chartjs-size-monitor">
+          <div class="chartjs-size-monitor-expand">
+            <div class=""></div>
+          </div>
+          <div class="chartjs-size-monitor-shrink">
+            <div class=""></div>
+          </div>
+        </div>
+        <canvas id="barChart"
+          style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 580px;"
+          width="725" height="312" class="chartjs-render-monitor"></canvas>
+      </div>
+    </div>
+  </div> -->
+
+
+
+
+
+
+
+
+
+
+
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        {% if perms.auth.view_user %}
+
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa fa-users"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Users</span>
+              {% user_count as user_c %}
+              {% if user_c %}
+              <span class="info-box-number"> {% user_count %}</span>
+              {% else %}
+              <small style="color: rgb(182, 173, 173);">No Data Found</small>
+              {% endif %}
+
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+
+       
+
+
+        <div class="clearfix hidden-md-up"></div>
+       
+
+        {% if perms.auth.view_group %}
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class=" fab fa-rebel"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Groups</span>
+              {% group_count as group_c %}
+              {%if group_c %}
+              <span class="info-box-number">{% group_count %}</span>
+              {% else %}
+              <small style="color: rgb(182, 173, 173);">No Data Found</small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        
+        <!-- {% if perms.auth.view_group %} -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class=" fa  fa-star"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Testimonies</span>
+              {% testimony_count as test_c %}
+              {%if test_c %}
+              <span class="info-box-number">{% testimony_count %}</span>
+              {% else %}
+              <small style="color: rgb(182, 173, 173);">No Data Found</small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <!-- {% endif %} -->
+
+      
+      </div>
+
+    </div>
+  </section>
+
+  <div class="row" style="display: none;">
+    <div class="col-md-6">
+      <div class="card-body">
+        <div class="chart">
+          <div class="chartjs-size-monitor">
+            <div class="chartjs-size-monitor-expand">
+              <div class=""></div>
+            </div>
+            <div class="chartjs-size-monitor-shrink">
+              <div class=""></div>
+            </div>
+          </div>
+          <canvas id="areaChart"
+            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 573px;"
+            width="716" height="312" class="chartjs-render-monitor"></canvas>
+        </div>
+      </div>
+
+
+      <div class="card-body">
+        <div class="chartjs-size-monitor">
+          <div class="chartjs-size-monitor-expand">
+            <div class=""></div>
+          </div>
+          <div class="chartjs-size-monitor-shrink">
+            <div class=""></div>
+          </div>
+        </div>
+        <canvas id="donutChart"
+          style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 573px;"
+          width="716" height="312" class="chartjs-render-monitor"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% block js %} 
+
+<script> 
+  $(function () {
+
+    var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+  
+    var areaChartData = {
+      labels  : ['Week 1', 'Week 2', 'Week 3', 'Week 3', 'Week 4',],
+      datasets: [
+        {
+          label               : 'Jamii',
+          backgroundColor     : 'rgba(60,141,188,0.9)',
+          borderColor         : 'rgba(60,141,188,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(60,141,188,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [28, 48, 40, 19, 86, 27, 90]
+        },
+        {
+          label               : 'Share (Hisa)',
+          backgroundColor     : 'rgba(210, 214, 222, 1)',
+          borderColor         : 'rgba(210, 214, 222, 1)',
+          pointRadius         : false,
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : [65, 59, 80, 81, 56, 55, 40]
+        },
+      ]
+    }
+  
+    var areaChartOptions = {
+      maintainAspectRatio : false,
+      responsive : true,
+      legend: {
+        display: false
+      },
+      scales: {
+        xAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }],
+        yAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }]
+      }
+    }
+  
+
+  
+    //-------------
+    //- DONUT CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+          'Chrome', 
+          'IE',
+          'FireFox', 
+          'Safari', 
+          'Opera', 
+          'Navigator', 
+      ],
+      datasets: [
+        {
+          data: [700,500,400,600,300,100],
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+
+
+  
+    //-------------
+    //- BAR CHART -
+    //-------------
+    var barChartCanvas = $('#barChart').get(0).getContext('2d')
+    var barChartData = jQuery.extend(true, {}, areaChartData)
+    var temp0 = areaChartData.datasets[0]
+    var temp1 = areaChartData.datasets[1]
+    barChartData.datasets[0] = temp1
+    barChartData.datasets[1] = temp0
+  
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+  
+    var barChart = new Chart(barChartCanvas, {
+      type: 'bar', 
+      data: barChartData,
+      options: barChartOptions
+    })
+ 
+   
+  })
+  </script>
+
+
+{% endblock %}
+
+
+{% endblock %}

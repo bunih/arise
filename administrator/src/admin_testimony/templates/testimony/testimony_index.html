@@ -1,0 +1,210 @@
+{% extends 'admin_layouts/administrator.html'%}
+{% load static %} 
+{% load humanize %} 
+{% block title %} administrator | subscribers{% endblock%}
+{% block content %}
+
+
+
+
+
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">subscriber Panel </h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">subscribe</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+    <!-- /.content-header -->
+    <div class="container">
+        {% if  subscribes.count  %}
+
+<div class="card">
+    <div class="card-header border-transparent">
+      <h3 class="card-title">subscribes Lists</h3>
+
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-widget="collapse">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-widget="remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+
+     
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table m-0">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th> email</th>
+            <th>time</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+              {% for subscribe in subscribes %}
+          <tr>
+            <td><a href="">{{ forloop.counter }}</a></td>
+            <td>{{ subscribe.email }}</td>
+            <td>{{ subscribe.timestamp| naturaltime }}</td>
+            <td><span class="badge badge-success">Guest</span></td>
+           
+            <td>
+                <a title="Edit subscribe info" style="margin-right: 10px;" href="" data-toggle="modal" data-target="#editsubscribe{{ subscribe.id }}" class="text-primary"> <i class="fa fa-edit"></i> </a>
+                <!-- <a title="Grant Permission" style="margin-right: 10px;" href="{% url 'administrator:grant_access' subscribe.id %}" class="text-primary"> <i class="fa fa-key"></i> </a> -->
+                <a title="Delete subscribe " href="javascript:void(0)" data-toggle='modal' data-target="#deletesubscribe{{ subscribe.id }}" class="text-danger"> <i class="fa fa-trash"></i> </a>
+            </td>
+          </tr>
+
+              
+
+                <!-- Create Modal -->
+                <div class="modal fade" id="deletesubscribe{{ subscribe.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                   <div class="modal-content">
+                      <div class="modal-header">
+                        Delete subscribe
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                         </button>
+                      </div>
+                      <div class="modal-body">
+                         <form action="{% url 'administrator:remove_subscribe' subscribe.id  %}"  >
+                            {% csrf_token %}
+                           <p>Are Your Sure?</p>
+                         
+                            <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                               <button type="submit" class="btn btn-danger btn-sm">Yes?Delete subscribe </button>
+                            </div>
+                      </div>
+                      </form>
+                   </div>
+                </div>
+             </div>
+             <!-- end Modal -->
+
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editsubscribe{{ subscribe.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                   <div class="modal-content">
+                      <div class="modal-header">
+                      Reply Form
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                         </button>
+                      </div>
+                      <div class="modal-body">
+                         <form action=""  method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                              <input type="text" name="name" class="form-control" autofocus
+                               placeholder="Enter Your New subscribes Name" value="{{ subscribe.name }}">
+                            </div>
+
+                            <div class="form-group">
+                              <textarea name="body" id="" cols="30" rows="10" class="form-control" autofocus
+                              placeholder="Enter Your body reply here..."
+                              ></textarea>
+                           
+                            </div>
+                         
+                            <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                               <button type="submit" class="btn btn-primary btn-sm">Reply </button>
+                            </div>
+                      </div>
+                      </form>
+                   </div>
+                </div>
+             </div>
+             <!-- end Modal -->
+         
+          {% endfor  %}
+         
+         
+       
+          </tbody>
+        </table>
+      </div>
+      <!-- /.table-responsive -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer clearfix">
+      <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-default" class="btn btn-sm btn-danger float-right">Clear All subscribe</a>
+    </div>
+
+
+    
+
+
+
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- /.card-footer -->
+  </div>
+  {% else %}
+  <div class="jumbotron text-center text-info">
+    <h5> <i class="fa fa-exclamation-triangle"></i> No any subscribes Found</h5>
+  </div>
+  {% endif %}
+</div>
+
+
+
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Clear All subscribes</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="{% url 'administrator:remove__all_subscribe' %}" method="POST">
+      <div class="modal-body">
+        {% csrf_token %}
+            <p>Are You Sure Please ? Delete All subscribes ?</p>
+        
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-danger btn-sm">YES? Delete</button>
+      </div>
+    </form>
+    </div>
+  </div>
+  </div>
+  
+
+{% endblock %}

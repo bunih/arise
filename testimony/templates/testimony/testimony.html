@@ -1,0 +1,498 @@
+{% extends 'layouts/base.html'%} {% load base %} {% load static %} 
+{% block css %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="styles/bootstrap4/bootstrap.min.css"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'testimony/plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'testimony/plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'testimony/plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'testimony/plugins/OwlCarousel2-2.2.1/animate.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'testimony/styles/main_styles.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'testimony/styles/responsive.css' %}"
+/>
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'styles/events.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'styles/events_responsive.css' %}"
+/>
+
+{% endblock %} 
+
+{% block content %}
+<div class="home">
+  <div
+    class="home_background"
+    style="background-image: url(/static/images/events.jpg)"
+  ></div>
+  <div class="home_content">
+    <div class="container">
+      <div class="row">
+        <div
+          class="col d-flex flex-row align-items-center justify-content-start"
+        >
+          <div class="home_title">Testimonies</div>
+          <div class="breadcrumbs ml-auto">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li>Testimonies</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="createTestimony"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        Upload Testimony
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          action="{% url 'testimony:testimonies' %}"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="video">
+              <span style="color: red">*</span> Choose Video File</label
+            >
+            <input type="file" id="video" name="video" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="title"><span style="color: red">*</span> Title</label>
+            <input
+              required
+              type="text"
+              id="title"
+              name="title"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="description">
+              <span style="color: red">*</span>Description</label
+            >
+            <textarea
+              required
+              id="description"
+              name="description"
+              class="form-control"
+              cols="30"
+              rows="4    "
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="source">
+              <span style="color: red">*</span>Source
+            </label>
+            <select required name="source" id="" class="form-control">
+              <option value="0" selected disabled>
+                ----Choose Source-----
+              </option>
+              <option value="church">FROM CHURCH (ALTER)</option>
+              <option value="online">FROM ONLINE (INTERNET/CALL)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cat"> <span style="color: red">*</span>Category</label>
+            <select name="cat" id="" class="form-control">
+              <option value="0" selected disabled>
+                ----Suggest Category-----
+              </option>
+              <option value="high">HIGH LEVEL</option>
+              <option value="hero">HERO LEVEL</option>
+              <option value="normal">NORMAL LEVEL</option>
+              <option value="lower">LOWER LEVEL</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <input type="text" name="name" class="form-control" placeholder="Name" />
+              </div>
+              <div class="col">
+                <input
+                  type="text"
+                  name="contact"
+                  class="form-control"
+                  placeholder="contact eg 078..."
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <input type="text" name="witness" class="form-control" placeholder="witness" />
+              </div>
+              <div class="col">
+                <input
+                  type="text"
+                  name="witness_no"
+                  class="form-control"
+                  placeholder="witness contact eg 078..."
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+            <input type="text" name="country" value="Tanzania" placeholder="Default Tanzania " id="country" class="form-control" />
+              </div>
+              <div class="col">
+                <input
+                  type="text"
+                  name="location"
+                  value="Dar Es salaam"
+                  class="form-control"
+                  placeholder="Region eg. Dar"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="date"><span style="color: red">*</span> When Happened ?</label>
+            <input
+              required
+              type="date"
+              id="title"
+              name="date"
+              class="form-control"
+            />
+          </div>
+          <!-- <div class="form-group" >
+            <label for="thumbnail" style="cursor: pointer;border:2px grey dotted;padding:2px 10%">
+              <i class="fa fa-file-picture-o"></i> Upload Thumbnail <i class="fa fa-level-down"></i>
+            </label>
+            <input   type="file" name="thumbnail" id="thumbnail" class="form-control" />
+          </div> -->
+        
+         
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-success btn-sm">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="events">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="section_title_container text-center">
+          <div class="section_title">Testimonies</div>
+      
+        </div>
+      </div>
+    </div>
+    <br /><br />
+    {% if user.is_authenticated %}
+    <div class="col text-center">
+      <a
+        href="javascript:void(0)"
+        data-toggle="modal"
+        data-target="#createTestimony"
+        class="btn btn-success btn-sm"
+        style="color: rgb(255, 255, 255)"
+      >
+        <i class="fa fa-plus"></i>
+        Upload Testimony</a
+      >
+    </div>
+    {% endif %}
+  </div>
+
+
+  <div class="mt-3" >
+    <div class="row justify-content-center" style="padding:5px 10px"> 
+      <div class="align-items-center   d-flex flex-column ">
+        <form action="{% url 'testimony:filter' %}">
+          <input type="search" class="menu_search_input" name="search" placeholder="Search" required="required">
+          <button type="submit" class="menu_search_button  ">
+              <i class="fa fa-search" ></i>
+          </button>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
+  {% if testimonies %}
+
+  <div class="row align-items-center">
+    <div class="col text-center">
+      <div class="new_arrivals_sorting">
+        <ul
+          class="
+            arrivals_grid_sorting
+            clearfix
+            button-group
+            filters-button-group
+          "
+        >
+          <li
+            class="
+              grid_sorting_button
+              button
+              d-flex
+              flex-column
+              justify-content-center
+              align-items-center
+              active
+              is-checked
+            "
+            data-filter="*"
+          >
+            all
+          </li>
+          <li
+            class="
+              grid_sorting_button
+              button
+              d-flex
+              flex-column
+              justify-content-center
+              align-items-center
+            "
+            data-filter=".church"
+          >
+            From Church
+          </li>
+          <li
+            class="
+              grid_sorting_button
+              button
+              d-flex
+              flex-column
+              justify-content-center
+              align-items-center
+            "
+            data-filter=".online"
+          >
+            From Online
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<!-- ========================================================================== -->
+{% if result %}
+<div class="text-center">
+  <div class="text-success">
+    <span>[ {{ result }} testimony(s) were found ]</span>
+    
+  </div>
+</div>
+{% endif %}
+
+<!-- ========================================================================== -->
+<div
+    class="
+      events_items
+      d-flex
+      flex-lg-row flex-column
+      align-items-lg-start align-items-center
+      justify-content-center
+      flex-wrap
+    "
+  >
+
+
+
+
+ 
+    {% for testimony in testimonies %}
+
+    <div class="events_item {{ testimony.source }}">
+      <div class="" style="width: auto; height: auto">
+        <video
+          class="col-sm-12"
+          muted
+          loop
+          src="{{ testimony.file.url }}"
+          width="360px"
+          autoplay
+          controls
+        ></video>
+      </div>
+      <div
+        class="
+          events_item_content
+          d-flex
+          flex-row
+          align-items-start
+          justify-content-start
+        "
+      >
+        <div class="event_date">
+          <div
+            style="background-color: brown"
+            class="d-flex flex-column align-items-center justify-content-center"
+          >
+            <div class="event_day">{{ testimony.created_at.day }}</div>
+            <div class="event_month">{{ testimony.created_at|date:'M' }}</div>
+          </div>
+        </div>
+        <div class="event_content">
+          <div class="event_title">
+            <a href="{{ testimony.get_absolute_url }}"
+              >{{ testimony.title| truncatewords:10}}</a
+            >
+          </div>
+          <ul class="event_row">
+            <li>
+              <div class="event_icon">
+                <img src="images/calendar.png" alt="" />
+              </div>
+              <span>{{ testimony.created_at }}</span>
+            </li>
+            <li>
+              <div class="event_icon">
+                <img src="images/location.png" alt="" />
+              </div>
+              <span
+                ><i class="fa fa-user"></i> Posted by {{ testimony.user }},
+                Verified by <i class="fa fa-user"></i> Innocent</span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="page_nav">
+          <ul>
+            {% if testimonies.has_previous %}
+
+            <li>
+              <a href="?page={{ testimonies.previous_page_number }}"
+                ><i class="fa fa-angle-left" aria-hidden="true"></i
+              ></a>
+            </li>
+            {% endif %} {% for pg in testimonies.paginator.page_range%} 
+            {% if testimonies.number == pg %}
+            <li class="active"><a href="?page={{pg}}" class="">{{ pg }}</a></li>
+            {% else %}
+            <li><a href="?page={{pg}}">{{ pg }}</a></li>
+
+            {% endif %} {% endfor %} {% if testimonies.has_next %}
+
+            <li>
+              <a href="?page={{ testimonies.next_page_number }}"
+                ><i class="fa fa-angle-right" aria-hidden="true"></i
+              ></a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <br />
+  <div class="jumbotron text-center">
+    <h6 style="color: red">
+      <i class="fa fa-exclamation-circle"></i> No Data found
+    </h6>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  var video=document.getElementById('video');
+  var id_title=document.getElementById('title');
+  var id_description=document.getElementById('description');
+  video.addEventListener('change',()=>{
+    if(video.value){
+        fileName_Index = video.value.lastIndexOf("\\") + 1;
+        id_title.value = video.value.substr(fileName_Index);
+        id_description.value = video.value.substr(fileName_Index);
+        id_description.focus()
+        
+
+    }
+    
+})
+</script>
+<script src="{% static 'testimony/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'testimony/styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'testimony/styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'testimony/plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'testimony/plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'testimony/plugins/easing/easing.js' %}"></script>
+<script src="{% static 'testimony/js/custom.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/video.js' %}"></script>
+{% endblock %}

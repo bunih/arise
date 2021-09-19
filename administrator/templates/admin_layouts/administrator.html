@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+  <link href="{% static 'administrator/dist/img/logo.png' %}" rel="shortcut icon" />
+
+  <title>{% block title %} {% endblock %}</title>
+
+
+  <!-- Font Awesome Icons -->
+  <!-- <link rel="stylesheet" href="{% static 'administrator/plugins/fontawesome-free/css/all.min.css' %}"> -->
+  <link rel="stylesheet" href="{% static 'administrator/plugins/fontawesome-free/css/all.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'administrator/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <link rel="stylesheet" href="{% static 'administrator/plugins/pace-progress/themes/black/pace-theme-flat-top.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'administrator/plugins/summernote/summernote-bs4.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'administrator/dist/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'administrator/dist/css/custom.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+
+</head>
+
+<body class="hold-transition sidebar-mini pace-primary sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed ">
+  <div class="wrapper">
+<!-- ====================================================================================== -->
+    {% include 'admin_layouts/partials/top.html' %}
+    {% include 'admin_layouts/partials/side.html' %}
+<!-- ====================================================================================== -->
+                <div class="content-wrapper" id="base">
+                  {% include 'admin_layouts/partials/inc/msg.html' %}
+                  {% block content %} {% endblock %}
+                </div>
+             
+<!-- ====================================================================================== -->
+    {% include 'admin_layouts/partials/foot.html' %}
+  </div>
+<!-- ====================================================================================== -->
+
+  <!-- REQUIRED SCRIPTS -->
+  <!-- jQuery -->
+  <script src="{% static 'administrator/plugins/jquery/jquery.min.js' %} "></script>
+  <script>
+    $('#base').hide().fadeIn(1000)
+</script>
+  <!-- Bootstrap -->
+  <script src="{% static 'administrator/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- overlayScrollbars -->
+  <script src="{% static 'administrator/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+  <!-- AdminLTE App -->
+  <script src="{% static 'administrator/dist/js/adminlte.js' %}"></script>
+
+  <!-- jQuery Mapael -->
+  <script src="{% static 'administrator/plugins/jquery-mousewheel/jquery.mousewheel.js' %}"></script>
+
+  <script src="{% static 'administrator/plugins/raphael/raphael.min.js' %}"></script>
+
+  <script src="{% static 'administrator/plugins/jquery-mapael/jquery.mapael.min.js' %}"></script>
+
+  <script src="{% static 'administrator/plugins/jquery-mapael/maps/world_countries.min.js' %}"></script>
+
+  <!-- ChartJS -->
+  <script src="{% static 'administrator/plugins/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'administrator/plugins/pace-progress/pace.min.js' %}"></script>
+
+  <script src="{% static 'administrator/dist/js/sweetalert2/sweetalert2.min.js' %}"></script>
+
+  <script src="{% static 'administrator/plugins/summernote/summernote-bs4.min.js' %}"></script>
+
+  {% block js %} {% endblock %}
+  
+  
+
+</body>
+
+</html>

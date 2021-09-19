@@ -1,0 +1,101 @@
+{% extends 'layouts/base.html'%}
+{% load base %}
+{% load static %}
+{% block content %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/contact.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/contact_responsive.css' %}">
+{% endblock %}
+
+<br><br>
+
+<div class="super_container">
+<div class="home">
+    <div class="home_background" style="background-image:url('/static/images/events.jpg')"></div>
+    <div class="home_content">
+        <div class="container">
+            <div class="row">
+                <div class="col d-flex flex-row align-items-center justify-content-start">
+                    <div class="home_title">Contact</div>
+                    <div class="breadcrumbs ml-auto">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li>Contact</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="contact_info">
+                    <div class="contact_title">contact us</div>
+                    <div class="contact_info_content">
+                        <ul>
+                            <li>
+                                <div><i class="fa fa-map-marker" aria-hidden="true"></i></div><span>
+                                    Tanganyika Packers Kawe,Dar es Salaam</span>
+                            </li>
+                            <li>
+                                <div><i class="fa fa-phone" aria-hidden="true"></i></div><span>+255 718 320 084</span>
+                            </li>
+                            <li>
+                                <div><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                                <span>ariseandshine400@gmail.com</span>
+                            </li>
+                            <li>
+                                <div><i class="fa fa-globe" aria-hidden="true"></i></div>
+                                <span>www.ariseandshine.org</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-6 contact_form_col">
+                <div class="contact_form">
+                    <div class="contact_title">Contact Form </div>
+
+                    <!-- Contact Form -->
+                    <div class="contact_form_container">
+                        <form action="{% url 'contact:contact' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="text" name="name" class="form_input" placeholder="Your full Name" required="required">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" name="phone" class="form_input email_input" placeholder="Your phone number"
+                                        required="required">
+                                </div><br><br><br>
+                                <div class="col-lg-6">
+                                    <input type="text" name="location" class="form_input" placeholder="Your location" required="required">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" name="email" class="form_input email_input" placeholder="Your email"
+                                        required="required">
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form_text" placeholder="Your Message" name="message"
+                                        required="required"></textarea>
+                                    <button type="submit" class="form_submit_button">send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}

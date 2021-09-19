@@ -1,0 +1,307 @@
+{% extends 'layouts/base.html'%} {% load base %} {% load static %}
+<!-- ====================================== -->
+ {% block css%}
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'styles/blog_single.css' %}"
+/>
+
+<link
+rel="stylesheet"
+type="text/css"
+href="{% static 'styles/blog_single_responsive.css' %}"
+/>
+ 
+ {% endblock %} {% block content %}
+<div class="home">
+  <div
+    class="home_background"
+    style="background-image: url(/static/images/events.jpg)"
+  ></div>
+  <div class="home_content">
+    <div class="container">
+      <div class="row">
+        <div
+          class="col d-flex flex-row align-items-center justify-content-start"
+        >
+          <div class="home_title">Testimonies</div>
+          <div class="breadcrumbs ml-auto">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="{% url 'testimony:testimonies' %}">Testimonies</a></li>
+              <li>show</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+	<!-- Blog Single -->
+
+	<div class="blog">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+                    <div class="" style="width: auto;height:auto">
+                        <video class="col-sm-12" muted loop
+                          src="{{ testimony.file.url }}"
+                          width="360px"
+                          autoplay
+                          controls
+                        ></video>
+                      </div>
+					<div class="blog_post_title_container d-flex flex-row align-items-lg-center align-items-start justify-content-start">
+						<div class="blog_post_date">
+							<div class="d-flex flex-column align-items-center justify-content-center">
+								<div class="blog_post_day">{{ testimony.created_at.day}}</div>
+								<div class="blog_post_month">{{ testimony.created_at|date:'M' }}</div>
+							</div>
+						</div>
+						<div class="blog_post_title_content">
+							<div class="blog_post_title">{{ testimony.title }}</div>
+							<div class="blog_post_meta">
+								<ul>
+									<li><i class="fa fa-user" aria-hidden="true"></i><a href="#">Published By {{ testimony.user }}</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="blog_post_text">
+						<!-- <div class="blog_post_quote">
+                            {{ testimony.description }}</div> -->
+						<p> {{ testimony.description }}</p>
+					</div>
+					<div class="social_and_tags d-flex flex-lg-row flex-column align-items-start justify-content-start">
+						<div class="blog_social">
+							<ul>
+								<li > <i class="fa fa-user"></i> <a style="color: rgb(170, 169, 169);" >created  {{ testimony.created_at }}     </a></li>
+							</ul>
+						</div>
+						{% if user.is_authenticated %}
+				  
+						<div class="blog_post_tags ml-lg-auto">
+							<ul>
+								<li><a 
+                                    href="javascript:void(0)" data-toggle='modal' data-target="#editTestimony"
+                                     class="btn btn-primary btn-sm"  style="color: rgb(255, 255, 255);" >Edit Post</a></li>
+								<li><a 
+                                    href="javascript:void(0)" data-toggle='modal' data-target="#deleteTestimony"
+                                     class="btn btn-danger btn-sm"  style="color: rgb(255, 255, 255);" >Remove Post</a></li>
+								<li><a 
+                                    href="javascript:void(0)" data-toggle='modal' data-target="#disableTestimony"
+                                     class="btn btn-warning btn-sm"  style="color: rgb(255, 255, 255);" >
+									 {% if user.allowed %}
+									 Enable Post
+									 {% else  %}
+									 Disable Post
+									 {% endif %}
+									
+									</a></li>
+							</ul>
+						</div>
+						{% endif %}
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+            <div class="modal fade" id="editTestimony" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                 Edit Testimony
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="">
+                   <input type="text" name="" id="">
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-danger btn-sm">Yes? Delete </button>
+                    </div>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+            <div class="modal fade" id="deleteTestimony" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                 Delete Testimony
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form  action="{{ testimony.action }}" method="POST">
+                    {% csrf_token %}
+                    <p>Are Your Sure? Delete <strong style="color: red;">{{ testimony.title|truncatewords:3 }} </strong>?</p>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-danger btn-sm">Yes? Delete </button>
+                    </div>
+                </form>
+			</div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+            <div class="modal fade" id="disableTestimony" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                 Disable Testimony
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="{{ testimony.action }}" >
+                    <p>Are Your Sure? Disable <strong style="color: red;">{{ testimony.title|truncatewords:3 }} </strong>?</p>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-warning btn-sm">Yes?
+						  
+						{% if user.allowed %}
+						Enable
+						{% else  %}
+						Disable
+						{% endif %}
+					
+					</button>
+                    </div>
+                </form>
+			</div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+			
+			<!-- Comments -->
+
+			<!-- <div class="row comments_row">
+				<div class="col">
+					<div class="comments">
+						<div class="comments_title"><span>3</span> comments</div>
+						<div class="comments_container">
+							<ul class="comments_list">
+								<li class="comment">
+									<div class="comment_container d-flex flex-row align-items-start justify-content-start">
+										<div class="avatar"><div><img src="images/avatar_1.jpg" alt=""></div></div>
+										<div class="comment_content">
+											<div class="comment_name"><a href="#">Daniel Craig</a></div>
+											<div class="comment_time"><i class="fa fa-clock-o" aria-hidden="true"></i><span>08 MAR 2018</span></div>
+											<div class="comment_text">
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas interdum odio lorem, non ultricies est interdum id. Integer alim potquet augue vitae risus convallis.</p>
+											</div>
+											<div class="reply"><a href="#">reply</a></div>
+										</div>
+									</div>
+									<ul>
+										<li class="comment">
+											<div class="comment_container d-flex flex-row align-items-start justify-content-start">
+												<div class="avatar"><div><img src="images/avatar_2.jpg" alt=""></div></div>
+												<div class="comment_content">
+													<div class="comment_name"><a href="#">Ginny Weasley</a></div>
+													<div class="comment_time"><i class="fa fa-clock-o" aria-hidden="true"></i><span>08 MAR 2018</span></div>
+													<div class="comment_text">
+														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas interdum odio lorem, non ultricies est interdum id. Integer alim potquet augue vitae risus convallis.</p>
+													</div>
+													<div class="reply"><a href="#">reply</a></div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</li>
+
+								<li class="comment">
+									<div class="comment_container d-flex flex-row align-items-start justify-content-start">
+										<div class="avatar"><div><img src="images/avatar_1.jpg" alt=""></div></div>
+										<div class="comment_content">
+											<div class="comment_name"><a href="#">Daniel Craig</a></div>
+											<div class="comment_time"><i class="fa fa-clock-o" aria-hidden="true"></i><span>08 MAR 2018</span></div>
+											<div class="comment_text">
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas interdum odio lorem, non ultricies est interdum id. Integer alim potquet augue vitae risus convallis.</p>
+											</div>
+											<div class="reply"><a href="#">reply</a></div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div> -->
+
+			<!-- Leave your comment -->
+<!-- 
+			<div class="row leave_comment_row">
+				<div class="col">
+					<div class="leave_comment">
+						<div class="leave_comment_title">leave your comment</div>
+						<div class="leave_comment_form_container">
+							<form action="#">
+								<div class="row">
+									<div class="col-lg-6">
+										<input type="text" class="form_input" placeholder="Your Name" required="required">
+									</div>
+									<div class="col-lg-6">
+										<input type="email" class="form_input email_input" placeholder="Your Email" required="required">
+									</div>
+									<div class="col-12">
+										<textarea class="form_text" placeholder="Your Message" required="required"></textarea>
+										<button type="submit" class="form_submit_button">send comment</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div> -->
+
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
